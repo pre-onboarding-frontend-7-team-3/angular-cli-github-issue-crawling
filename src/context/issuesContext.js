@@ -19,10 +19,8 @@ export const IssuesProvider = ({ children }) => {
         };
         try {
           const res = await octokitApi.getIssueList(optionParams);
-          console.log(res.data);
           setIssues((prev) => [...prev, ...res.data]);
           pageRef.current += 1;
-          console.log(pageRef.current)
         } catch (err) {
           throw new Error(err);
         }

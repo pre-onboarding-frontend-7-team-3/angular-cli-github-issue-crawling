@@ -5,10 +5,10 @@ const useInfiniteScroll = (onIntersectObserver) => {
 
   const options = {
     root: null,
-    rootMargin: '10px',
+    rootMargin: "10px",
     threshod: 0,
   };
-  
+
   const onIntersect = useCallback(
     (entries, observer) => {
       entries.forEach((entry) => {
@@ -28,7 +28,7 @@ const useInfiniteScroll = (onIntersectObserver) => {
     observer.observe(ref.current);
 
     return () => observer.disconnect();
-  }, [onIntersect, ref]);
+  }, [onIntersect, ref, options]);
 
   return ref;
 };

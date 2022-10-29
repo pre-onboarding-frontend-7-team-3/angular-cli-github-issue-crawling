@@ -14,18 +14,16 @@ const IssueList = () => {
   useEffect(() => {
     handleGetIssueList();
   }, [handleGetIssueList]);
-
+console.log(issues)
   return (
     <IssueListContainer>
-      {/* <Suspense fallback={<Spinner />}> */}
       {issues?.map((issue, idx) => {
         if (idx === 4) {
           return <WantedAd />;
         }
         return <IssueListItem issue={issue} />;
       })}
-      {/* </Suspense> */}
-      <div ref={infiniteScrollTargetRef}>bottom</div>
+      <div ref={infiniteScrollTargetRef} />
     </IssueListContainer>
   );
 };

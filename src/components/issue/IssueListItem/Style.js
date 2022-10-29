@@ -5,7 +5,7 @@ export const IssueItemContainer = styled.div`
   justify-content: space-between;
   height: 15vh;
   padding: 10px 20px;
-  border: 1px solid black;
+  border-bottom: 1px solid rgb(178, 176, 176);
 `;
 
 export const FlexColumnContainer = styled.div`
