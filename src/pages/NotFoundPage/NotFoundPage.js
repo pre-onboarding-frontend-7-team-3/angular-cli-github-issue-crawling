@@ -1,31 +1,33 @@
 import { useNavigate } from "react-router";
 import styled from "@emotion/styled";
 import useTitle from "../../hooks/useTitle";
+import Layout from "../../components/common/Layout";
 
 const NotFoundPage = () => {
   const navigate = useNavigate();
-  useTitle('404페이지')
+  useTitle("404페이지");
 
   return (
-    <Template>
-      <h1>페이지를 찾을 수 없습니다.</h1>
-      <RedirectButton
-        onClick={() => {
-          navigate("/", { replace: true });
-        }}
-      >
-        메인으로 돌아가기
-      </RedirectButton>
-    </Template>
+    <Layout>
+      <Template>
+        <h1>페이지를 찾을 수 없습니다.</h1>
+        <RedirectButton
+          onClick={() => {
+            navigate("/", { replace: true });
+          }}
+        >
+          메인으로 돌아가기
+        </RedirectButton>
+      </Template>
+    </Layout>
   );
 };
 
-export const Template = styled.main`
+export const Template = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 10vh;
 `;
 
 export const RedirectButton = styled.button`

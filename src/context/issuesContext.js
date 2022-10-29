@@ -23,7 +23,6 @@ export const IssuesProvider = ({ children }) => {
           pageRef.current += 1;
         } catch (err) {
           window.location.assign('/error-page')
-          throw new Error(err);
         }
       },
     };
@@ -36,12 +35,12 @@ export const IssuesProvider = ({ children }) => {
   );
 };
 
-export const useIssueState = () => {
+export const useIssuesState = () => {
   const issues = useContext(IssuesContext);
   return issues;
 };
 
-export const useDispatchAction = () => {
+export const useListDispatchAction = () => {
   const dispatch = useContext(IssuesDispatchActionContext);
   return dispatch;
 };

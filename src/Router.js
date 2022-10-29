@@ -1,13 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Header from "./components/common/Header";
-import ErrorPage from "./pages/ErrorPage/ErrorPage";
+import ErrorPage from "./pages/errorPage/ErrorPage";
 import IssueList from "./pages/issueList/IssueList";
-import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import NotFoundPage from "./pages/notFoundPage/NotFoundPage";
 
 function App() {
   return (
     <BrowserRouter>
-      <Header />
       <Routes>
         <Route path="/" element={<IssueList />} />
         {/* <Route path="/:id" element={<IssueDetail />} /> */}

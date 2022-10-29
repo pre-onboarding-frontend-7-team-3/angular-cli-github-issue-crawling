@@ -25,7 +25,7 @@ const IssueListItem = ({ issue }) => {
         </FlexRowContainer>
       </FlexColumnContainer>
       <FlexColumnContainer>
-        <div>코멘트 : {comments}</div>
+        <span>코멘트 : {comments}</span>
       </FlexColumnContainer>
     </IssueItemContainer>
   );
