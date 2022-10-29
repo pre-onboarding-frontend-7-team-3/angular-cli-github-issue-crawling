@@ -4,13 +4,15 @@ import { useIssueState, useDispatchAction } from "../../context/issuesContext";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import IssueListItem from "../../components/issue/IssueListItem/IssueListItem";
 import WantedAd from "../../components/common/WantedAd";
+import useTitle from "../../hooks/useTitle";
 
 const IssueList = () => {
   const issues = useIssueState();
   const { handleGetIssueList } = useDispatchAction();
-
+  
   const infiniteScrollTargetRef = useInfiniteScroll(handleGetIssueList);
-
+  useTitle("Angular-cli")
+  
   useEffect(() => {
     handleGetIssueList();
   }, [handleGetIssueList]);

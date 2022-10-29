@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router";
 import styled from "@emotion/styled";
+import useTitle from "../../hooks/useTitle";
 
 const NotFoundPage = () => {
   const navigate = useNavigate();
+  useTitle('404페이지')
 
   return (
     <NotFoundTemplate>
