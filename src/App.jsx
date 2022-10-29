@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import IssueList from './pages/IssueList';
+import IssueList from './pages/issueList/IssueList';
 
 function App() {
   return (
