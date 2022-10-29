@@ -1,4 +1,5 @@
 import { IssueItemContainer } from "./Style";
+import { FlexColumnContainer, FlexRowContainer } from "./Style";
 import useFormatDate from "../../../hooks/useFormatDate";
 
 const IssueListItem = ({ issue }) => {
@@ -12,11 +13,20 @@ const IssueListItem = ({ issue }) => {
 
   return (
     <IssueItemContainer>
-      <div>{number}</div>
-      <div>{title}</div>
-      <div>{useFormatDate(created_at)}</div>
-      <div>{login}</div>
-      <div>{comments}</div>
+      <FlexColumnContainer>
+        <h4>
+          ##{number}
+          {title}
+        </h4>
+        <FlexRowContainer>
+          <span>작성자 :</span>
+          {useFormatDate(created_at)}, <span>작성일 : </span>
+          {login}
+        </FlexRowContainer>
+      </FlexColumnContainer>
+      <FlexColumnContainer>
+        <div>코멘트 : {comments}</div>
+      </FlexColumnContainer>
     </IssueItemContainer>
   );
 };
