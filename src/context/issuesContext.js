@@ -22,12 +22,12 @@ export const IssuesProvider = ({ children }) => {
           setIssues((prev) => [...prev, ...res.data]);
           pageRef.current += 1;
         } catch (err) {
-          window.location.assign('/error-page')
+          window.location.replace('/error-page')
         }
       },
     };
   }, []);
-
+  
   return (
     <IssuesDispatchActionContext.Provider value={onIntersectObserver}>
       <IssuesContext.Provider value={issues}>{children}</IssuesContext.Provider>
