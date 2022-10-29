@@ -7,7 +7,7 @@ const NotFoundPage = () => {
   useTitle('404페이지')
 
   return (
-    <NotFoundTemplate>
+    <Template>
       <h1>페이지를 찾을 수 없습니다.</h1>
       <RedirectButton
         onClick={() => {
@@ -16,11 +16,11 @@ const NotFoundPage = () => {
       >
         메인으로 돌아가기
       </RedirectButton>
-    </NotFoundTemplate>
+    </Template>
   );
 };
 
-const NotFoundTemplate = styled.main`
+export const Template = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,7 +28,7 @@ const NotFoundTemplate = styled.main`
   padding-top: 10vh;
 `;
 
-const RedirectButton = styled.button`
+export const RedirectButton = styled.button`
   padding: 0.8vh 1vw;
   margin-top: 1vh;
   font-weight: 600;

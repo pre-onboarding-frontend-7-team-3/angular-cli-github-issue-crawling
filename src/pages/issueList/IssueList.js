@@ -16,7 +16,7 @@ const IssueList = () => {
   useEffect(() => {
     handleGetIssueList();
   }, [handleGetIssueList]);
-console.log(issues)
+
   return (
     <IssueListContainer>
       {issues?.map((issue, idx) => {

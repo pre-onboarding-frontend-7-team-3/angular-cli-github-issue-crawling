@@ -22,6 +22,7 @@ export const IssuesProvider = ({ children }) => {
           setIssues((prev) => [...prev, ...res.data]);
           pageRef.current += 1;
         } catch (err) {
+          window.location.assign('/error-page')
           throw new Error(err);
         }
       },
