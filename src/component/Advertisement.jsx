@@ -8,6 +8,7 @@ function Advertisement() {
       <div css={imgWrapper}>
         <img
           css={imgCss}
+          style={{ width: "200px", height: "100%" }}
           alt="ads"
           src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fuserweb%2Flogo_wanted_black.png&w=110&q=100"
         />
@@ -18,9 +19,7 @@ function Advertisement() {
 
 const imgWrapper = css`
   ${customBodyStyle}
-  width: 200px;
-  height: 100%;
-  padding: 0 30px;
+  padding: 15px 30px;
 `;
 
 const imgCss = css`
