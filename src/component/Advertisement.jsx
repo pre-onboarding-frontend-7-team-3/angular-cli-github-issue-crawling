@@ -8,7 +8,7 @@ function Advertisement() {
       <div css={imgWrapper}>
         <img
           css={imgCss}
-          style={{ width: "200px", height: "100%" }}
+          style={{ width: "200px", height: "80px" }}
           alt="ads"
           src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fuserweb%2Flogo_wanted_black.png&w=110&q=100"
         />

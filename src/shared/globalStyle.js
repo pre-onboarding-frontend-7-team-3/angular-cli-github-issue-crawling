@@ -7,7 +7,6 @@ export const customBodyStyle = css`
   border-radius: 10px;
   margin: 48px auto;
   width: 20rem;
-  height: 80px;
   @media screen and (min-width: 480px) {
     width: 28rem;
   }
