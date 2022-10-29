@@ -35,7 +35,7 @@ function Detail() {
       <Header />
       {data && (
         <div css={userDataWrapper}>
-          <img css={imgCss} src={data.user.avatar_url} />
+          <img css={imgCss} alt="user" src={data.user.avatar_url} />
           <List list={data} />
         </div>
       )}
