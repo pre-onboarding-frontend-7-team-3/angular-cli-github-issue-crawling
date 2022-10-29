@@ -5,13 +5,18 @@ const octokit = new Octokit({
   auth: process.env.REACT_APP_TOKEN,
 });
 
-// const octokitDetailAPI =  () => {
-//     try {
-//         const res = await octokit.request(
-//             "GET"
-//         )
-//     }
-// }
+const octokitDetailAPI = async (issue_number) => {
+  try {
+    const res = await octokit.request("GET /repos/{owner}/{repo}/issues/{issue_number}", {
+      owner: owner,
+      repo: repo,
+      issue_number: issue_number,
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 const octokitAPI = async (pageNum) => {
   try {
@@ -29,4 +34,4 @@ const octokitAPI = async (pageNum) => {
   }
 };
 
-export { octokitAPI };
+export { octokitAPI, octokitDetailAPI };

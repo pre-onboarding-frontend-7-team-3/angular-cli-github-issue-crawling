@@ -3,7 +3,7 @@ import Header from "./components/common/Header";
 import { Routes, Route } from "react-router-dom";
 import List from "./pages/List";
 import IssueContextWrapper from "./context/issueContext";
-import { Detail } from "./pages/Detail";
+import Detail from "./pages/Detail";
 function App() {
   return (
     <div className="App">
@@ -11,7 +11,7 @@ function App() {
       <IssueContextWrapper>
         <Routes>
           <Route path="/" element={<List />} />
-          <Route path="/detail" element={<Detail />} />
+          <Route path="/detail/:issue_number" element={<Detail />} />
         </Routes>
       </IssueContextWrapper>
     </div>

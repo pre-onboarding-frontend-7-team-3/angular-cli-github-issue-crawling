@@ -2,11 +2,13 @@
 import React from "react";
 import { css } from "@emotion/react";
 import { Advertise } from "./Advertise";
+import { Link } from "react-router-dom";
 
 const Issue = ({ issue, idx }) => {
   return (
     <>
     {idx === 5 && <Advertise />}
+    <Link to={`/detail/${issue.number}`}>
     <li css={issueContainer}>
       <div css={issueLeft}>
         <div css={issueLeftUpper}>
@@ -20,6 +22,7 @@ const Issue = ({ issue, idx }) => {
       </div>
       <div css={issueComment}>코멘트: {issue.comments}</div>
     </li>
+    </Link>
     </>
   );
 };

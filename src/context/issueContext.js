@@ -1,6 +1,5 @@
 import { createContext, useReducer } from "react";
-import issueReducer from "../components/helper/reducer";
-
+import issueReducer from "../helper/reducer";
 export const issueContext = createContext([]);
 export const issueDispatchContext = createContext();
 const initialIssue = [];
