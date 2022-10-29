@@ -11,11 +11,25 @@ export const IssueItemContainer = styled.div`
 export const FlexColumnContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content:center;
+  justify-content: center;
+  min-width: 100px;
   gap: 10px;
+`;
+
+export const FlexCenterContainer = styled.div`
+  display:flex;
+  align-items:center;
+  gap: 15px;
 `;
 
 export const FlexRowContainer = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 8px;
+`;
+
+export const UserAvatar = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
 `;

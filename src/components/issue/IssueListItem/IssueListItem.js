@@ -1,5 +1,5 @@
 import { IssueItemContainer } from "./Style";
-import { FlexColumnContainer, FlexRowContainer } from "./Style";
+import { FlexColumnContainer, FlexRowContainer, FlexCenterContainer, UserAvatar } from "./Style";
 import useFormatDate from "../../../hooks/useFormatDate";
 
 const IssueListItem = ({ issue }) => {
@@ -8,19 +8,23 @@ const IssueListItem = ({ issue }) => {
     title,
     created_at,
     comments,
-    user: { login },
+    user: { avatar_url, html_url, login },
   } = issue;
 
   return (
     <IssueItemContainer>
       <FlexColumnContainer>
-        <h4>
-          ##{number}
-          {title}
-        </h4>
+        <FlexCenterContainer>
+          <a href={html_url} target="_blank" rel="noreferrer">
+            <UserAvatar src={avatar_url} />
+          </a>
+          <h4>
+            ##{number} - <span>{title}</span>
+          </h4>
+        </FlexCenterContainer>
         <FlexRowContainer>
-          <span>작성자 :</span>
-          {useFormatDate(created_at)}, <span>작성일 : </span>
+          <span>작성일 :</span>
+          {useFormatDate(created_at)}, <span>작성자 : </span>
           {login}
         </FlexRowContainer>
       </FlexColumnContainer>
