@@ -51,14 +51,18 @@ npm start
 
 1. VSC Live Share
     
-     - 개발 초기에 업무를 최대한 작은 단위로 나눈 뒤 같이 프로그래밍하는 방식의 개발 프로세스를 선택했습니다. 단순 화면 공유 기능을 사용했을때는 동시에 작업을 하거나 다양한 피드백을 주고 받기 어려웠으나 익스텐션을 사용해서 실시간으로 코드를 작성하고 디버깅 할 수 있어서 개발 기간을 단축시켰습니다.
+- 개발 초기에 업무를 최대한 작은 단위로 나눈 뒤 같이 프로그래밍하는 방식의 개발 프로세스를 선택했습니다. 단순 화면 공유 기능을 사용했을때는 동시에 작업을 하거나 다양한 피드백을 주고 받기 어려웠으나 익스텐션을 사용해서 실시간으로 코드를 작성하고 디버깅 할 수 있어서 개발 기간을 단축시켰습니다.
+
+</br>
     
 2. husky를 이용해 commit전 lint 자동 검사 —> `자동화(작업효율증가)`
+
+</br>
 
 ### Best Practice 및 선정 근거
 
 1. Octokit API 기반 비동기 통신
-    - GitHub REST API를 사용해서 특정 repository에 접근하고자 GitHub CLI, JavaScript, cURL 중 빠른 초기 개발 환경 구축과 간소화된 로직을 근거로 Octokit API를 채택했습니다. GitHub Actions와도 사용이 가능해 배포 자동화를 고려했을때 적합하다고 판단했습니다.
+- GitHub REST API를 사용해서 특정 repository에 접근하고자 GitHub CLI, JavaScript, cURL 중 빠른 초기 개발 환경 구축과 간소화된 로직을 근거로 Octokit API를 채택했습니다. GitHub Actions와도 사용이 가능해 배포 자동화를 고려했을때 적합하다고 판단했습니다.
 
 ```javascript
 import { Octokit } from "octokit";
@@ -87,8 +91,10 @@ export const octokitDetailApi = async (id) => {
 };
 ```
 
+</br>
+
 2. Context API / useReducer 
-    - 스크롤 이벤트에 발생하는 비동기 요청마다 상태를 업데이트 시켰습니다. 컴포넌트 단에서 여러 상태를 만들기 보다 컨포넌트간 상태를 공유하고 비동기 요청 형태에 따라 useContext와 userReducer 훅이 적합하다고 의견을 모았습니다. 더 작은 영역에서 확실한 책임을 지도록 커스텀 reducer와 공용 context prodiver 컴포넌트로 로직을 분리해서 관리했습니다.
+- 스크롤 이벤트에 발생하는 비동기 요청마다 상태를 업데이트 시켰습니다. 컴포넌트 단에서 여러 상태를 만들기 보다 컨포넌트간 상태를 공유하고 비동기 요청 형태에 따라 useContext와 userReducer 훅이 적합하다고 의견을 모았습니다. 더 작은 영역에서 확실한 책임을 지도록 커스텀 reducer와 공용 context prodiver 컴포넌트로 로직을 분리해서 관리했습니다.
     
 ```javascript
 import { createContext, useContext, useReducer } from "react";
@@ -143,13 +149,15 @@ const issueReducer = (state, action) => {
 export default issueReducer;
 ```
 
+</br>
+
 3. Intersection Observer API
-    - 무한 스크롤을 구현하는 방법에 있어, scroll event의 사용은 debounce나 throttle을 통한 호출 제어가 필요하며, 
-    높이 값 조사를 위해 offsetTop을 사용할 때는 layout이 매번 새로 그려져 reflow가 유발됩니다.
-    Intersection Observer의 사용을 통해 호출 제어의 필요 없이 
-    타겟 요소와 상위 요소 상이의 intersection 변화를 비동기적으로 감지해, 클라이언트의 부담을 덜어준다는 의견 공유가 이루어졌습니다.
-    구현로직을 간소화하고 훅을 통해 독립적인 함수로 분리했습니다.
-    - 참고 파일 useInfiniteScroll.js
+- 무한 스크롤을 구현하는 방법에 있어, scroll event의 사용은 debounce나 throttle을 통한 호출 제어가 필요하며, 
+높이 값 조사를 위해 offsetTop을 사용할 때는 layout이 매번 새로 그려져 reflow가 유발됩니다.
+Intersection Observer의 사용을 통해 호출 제어의 필요 없이 
+타겟 요소와 상위 요소 상이의 intersection 변화를 비동기적으로 감지해, 클라이언트의 부담을 덜어준다는 의견 공유가 이루어졌습니다.
+구현로직을 간소화하고 훅을 통해 독립적인 함수로 분리했습니다.
+- 참고 파일 useInfiniteScroll.js
     
 ```javascript
 // Home
@@ -219,10 +227,12 @@ const Home = () => {
 export default Home;
 ```
 
+</br>
+
 4. 반응형 디자인
-    - UI를 데스크톱과 모바일에서 보았을 때 모두 읽기 편하게 구현하기 위해 media-query를 사용했습니다. 
-    스타일의 재사용성을 고려해서 커스텀 css를 컴포넌트간 공유하게 했습니다.
-    - 참고파일 globalStyle.js
+- UI를 데스크톱과 모바일에서 보았을 때 모두 읽기 편하게 구현하기 위해 media-query를 사용했습니다. 
+스타일의 재사용성을 고려해서 커스텀 css를 컴포넌트간 공유하게 했습니다.
+- 참고파일 globalStyle.js
     
 ```javascript
 // globalStyle
@@ -241,12 +251,14 @@ export const customBodyStyle = css`
   }
 `;
 ```
+
+</br>
     
 5. react-markdown / syntax highlighter
-    - 초기에 remark 라이브러리와 remark-html을 혼합하여 사용하는 방식을 채택했습니다.
-    사용 과정중 특정 태그(코드 블록)에서 레이아웃이 의도치 않게 상위 블록을 초과하는 경우가 발생하였고,
-    마크다운 레이아웃 및 html 태그 편집에 용이한 마크다운 라이브러리를 사용하자는 의견을 모았습니다. 
-    react-markdown은 html 삽입시 `dangerouslySetInnerHTML` 에 의존하지 않아, XSS 공격에도 안전하다는 의견을 공유했습니다.
+- 초기에 remark 라이브러리와 remark-html을 혼합하여 사용하는 방식을 채택했습니다.
+사용 과정중 특정 태그(코드 블록)에서 레이아웃이 의도치 않게 상위 블록을 초과하는 경우가 발생하였고,
+마크다운 레이아웃 및 html 태그 편집에 용이한 마크다운 라이브러리를 사용하자는 의견을 모았습니다. 
+react-markdown은 html 삽입시 `dangerouslySetInnerHTML` 에 의존하지 않아, XSS 공격에도 안전하다는 의견을 공유했습니다.
 
 ```javascript
 // Detail
@@ -280,7 +292,6 @@ export default Detail;
 ```
 
 </br>
-
 
 ## Code Convention
 
@@ -355,7 +366,7 @@ export default Detail;
 ## 👨‍👩‍👧‍👦 팀원
 
 |                                           조은지<br/>(팀장)                                           |                                         고영훈<br/>(서기)                                         |                                            김창희<br/>(팀원)                                             |                                           박정민<br/>(팀원)                                           |                                         문지원<br/>(팀원)                                         |                                            이상민<br/>(팀원)                                            |                                             이지원<br/>(팀원)                                             |                                            조수진<br/>(팀원)                                            |
-| :---------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: |
-| <img src="https://avatars.githubusercontent.com/u/95282989?s=96&v=4" alt="Joeunji0119" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/65995664?s=96&v=4" alt="YeonghunKO" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/45018724?s=96&v=4" alt="PiperChang" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/55550034?s=96&v=4" alt="ono212" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/78708082?s=96&v=4" alt="moonkorea00" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/28257740?s=96&v=4" alt="dltkdals224" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/86206374?s=96&v=4" alt="365supprot" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/95282989?s=96&v=4" alt="suzz-in" width="60" height="60"> |
+| :--------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------: |
+| <img src="https://avatars.githubusercontent.com/u/95282989?s=96&v=4" alt="Joeunji0119" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/65995664?s=96&v=4" alt="YeonghunKO" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/45018724?s=96&v=4" alt="PiperChang" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/55550034?s=96&v=4" alt="ono212" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/78708082?s=96&v=4" alt="moonkorea00" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/28257740?s=96&v=4" alt="dltkdals224" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/86206374?s=96&v=4" alt="365supprot" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/110365677?v=4" alt="suzz-in" width="60" height="60"> |
 |                                [Joeunji0119](https://github.com/Joeunji0119)                                |                            [YeonghunKO](https://github.com/YeonghunKO)                            |                               [PiperChang](https://github.com/PiperChang)                                |                                [ono212](https://github.com/ono212)                                |                               [moonkorea00](https://github.com/moonkorea00)                               |                                 [dltkdals224](https://github.com/dltkdals224)                                 |                                 [365support](https://github.com/365support)                                 |                                   [suzz-in](https://github.com/suzz-in)                                   |
 
