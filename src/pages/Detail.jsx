@@ -21,20 +21,22 @@ function Detail() {
   const dispatch = useContext(dispatchContext);
 
   useEffect(() => {
-    octokitDetailApi(id)
-      .then((res) => {
-        dispatch({ type: "INIT_ISSUE", initIssue: res.data });
-      })
-      .catch(() => {
-        navigate("/error", { state: "데이터를 불러오는데 실패했습니다" });
-      });
+    if (!issue) {
+      octokitDetailApi(id)
+        .then((res) => {
+          dispatch({ type: "INIT_ISSUE", initIssue: res.data });
+        })
+        .catch(() => {
+          navigate("/error", { state: "데이터를 불러오는데 실패했습니다" });
+        });
+    }
   }, []);
 
   return (
     <section>
-      {issue && <Header repository_url={issue?.repository_url} issue_number={issue.number} />}
       {issue && (
         <>
+          <Header repository_url={issue.repository_url} issue_number={issue.number} />
           <div css={userDataWrapper}>
             <img css={imgCss} alt={"user"} src={issue.user.avatar_url} />
             <List list={issue} />
