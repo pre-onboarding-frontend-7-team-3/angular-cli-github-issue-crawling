@@ -18,7 +18,7 @@ const Home = () => {
   const { issueList } = useIssueContext();
   const dispatch = useDispatchContext();
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [isInit, setIsInit] = useState(true);
 
   const [isEnd, setIsEnd] = useState(false);
@@ -30,10 +30,11 @@ const Home = () => {
         .then((res) => {
           if (isInit) {
             window.scrollTo(0, 0);
-            dispatch({ type: "ADD_ISSUELIST", initIssue: res.data });
+            dispatch({ type: "INIT_ISSUELIST", initIssue: res.data });
             setIsInit(false);
           } else {
-            dispatch({ type: "INIT_ISSUELIST", initIssue: res.data });
+            dispatch({ type: "ADD_ISSUELIST", initIssue: res.data });
+            res.data.length === 0 && setIsEnd(true);
           }
         })
         .catch((err) => {
@@ -52,7 +53,7 @@ const Home = () => {
 
   return (
     <section>
-      {issueList && <Header repository_url={issueList[0]?.repository_url} />}
+      {issueList?.length && <Header repository_url={issueList[0]?.repository_url} />}
       {issueList?.map((list, idx) => (
         <div key={list.number} css={issuesContainer}>
           {idx === 4 && <Advertisement />}
