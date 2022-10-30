@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
 import { dispatchContext, issuesContext } from "../store/IssuesContext";
 import { octokitApi } from "../api/client";
+import useInfinityScroll from "../hooks/useInfinityScroll";
+
 import List from "../component/List";
 import Header from "../component/Header";
 import Advertisement from "../component/Advertisement";
@@ -17,16 +19,20 @@ const Home = () => {
   const dispatch = useContext(dispatchContext);
 
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-
-  const observingPoint = useRef();
+  const [isInit, setIsInit] = useState(true);
+  const [observingPoint, beginObserving] = useInfinityScroll();
 
   useEffect(() => {
     const getData = (page) => {
       octokitApi(page)
         .then((res) => {
-          dispatch({ type: "ADD", initIssue: res.data });
-          setLoading(true);
+          if (isInit) {
+            window.scrollTo(0, 0);
+            dispatch({ type: "INIT", initIssue: res.data });
+            setIsInit(false);
+          } else {
+            dispatch({ type: "ADD", initIssue: res.data });
+          }
         })
         .catch((err) => {
           navigate("/error", { state: "데이터를 불러오는데 실패했습니다" });
@@ -36,28 +42,29 @@ const Home = () => {
   }, [page]);
 
   useEffect(() => {
-    if (loading) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) {
-            setPage((page) => page + 1);
-          }
-        },
-        { threshold: 1 },
-      );
-      observer.observe(observingPoint.current);
+    if (isInit) {
+      beginObserving(() => setPage((page) => page + 1));
+      //   const observer = new IntersectionObserver(
+      //     (entries) => {
+      //       if (entries[0].isIntersecting) {
+      //         setPage((page) => page + 1);
+      //       }
+      //     },
+      //     { threshold: 1 },
+      //   );
+      //   observer.observe(observingPoint.current);
+      // }
     }
-  }, [loading]);
+  }, [isInit]);
 
   return (
     <div>
-      <Header />
       <div>
         {issuesData?.map((list, idx) =>
           idx === 4 ? (
-            <Advertisement />
+            <Advertisement key={list.number} />
           ) : (
-            <Link to={`/detail/${list.number}`} css={linkCss}>
+            <Link to={`/detail/${list.number}`} key={list.number} css={linkCss}>
               <List list={list} />
             </Link>
           ),
