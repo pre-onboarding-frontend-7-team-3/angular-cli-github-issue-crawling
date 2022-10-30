@@ -18,7 +18,7 @@ const Home = () => {
   const issuesData = useContext(issuesContext);
   const dispatch = useContext(dispatchContext);
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [isInit, setIsInit] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const [observingPoint, beginObserving] = useInfinityScroll();
@@ -51,26 +51,29 @@ const Home = () => {
   }, [isInit]);
 
   return (
-    <div>
-      <div>
-        {issuesData?.map((list, idx) =>
-          idx === 4 ? (
-            <Advertisement key={list.number} />
-          ) : (
-            <Link to={`/detail/${list.number}`} key={list.number} css={linkCss}>
-              <List list={list} />
-            </Link>
-          ),
-        )}
-      </div>
+    <section>
+      {issuesData.length && <Header repository_url={issuesData[0]?.repository_url} />}
+      {issuesData?.map((list, idx) => (
+        <div key={list.number} css={issuesContainer}>
+          {idx === 4 && <Advertisement />}
+          <Link to={`/detail/${list.number}`} key={list.number} css={linkCss}>
+            <List list={list} />
+          </Link>
+        </div>
+      ))}
       {!isEnd && (
         <div ref={observingPoint}>
           <Spinner />
         </div>
       )}
-    </div>
+    </section>
   );
 };
+
+const issuesContainer = css`
+  width: fit-content;
+  margin: 0 auto;
+`;
 
 const linkCss = css`
   text-decoration: none;

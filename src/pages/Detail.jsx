@@ -5,9 +5,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { octokitDetailApi } from "../api/client";
 import Reactmarkdown from "react-markdown";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import rehypeRaw from "rehype-raw";
+
 import { customBodyStyle } from "../shared/globalStyle";
 import List from "../component/List";
+
+import Header from "../component/Header";
 
 function Detail() {
   const navigate = useNavigate();
@@ -26,11 +28,12 @@ function Detail() {
   }, []);
 
   return (
-    <>
+    <section>
+      {data && <Header repository_url={data?.repository_url} issue_number={data.number} />}
       {data && (
         <>
           <div css={userDataWrapper}>
-            <img css={imgCss} alt="user" src={data.user.avatar_url} />
+            <img css={imgCss} alt={"user"} src={data.user.avatar_url} />
             <List list={data} />
           </div>
           <div css={customBodyStyle}>
@@ -44,7 +47,7 @@ function Detail() {
           </div>
         </>
       )}
-    </>
+    </section>
   );
 }
 
