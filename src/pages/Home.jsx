@@ -15,9 +15,8 @@ import Spinner from "../component/Loading";
 const Home = () => {
   const navigate = useNavigate();
 
-  const issuesData = useContext(issuesContext);
+  const { issueList } = useContext(issuesContext);
   const dispatch = useContext(dispatchContext);
-
   const [page, setPage] = useState(1);
   const [isInit, setIsInit] = useState(true);
   const [observingPoint, beginObserving] = useInfinityScroll();
@@ -28,10 +27,12 @@ const Home = () => {
         .then((res) => {
           if (isInit) {
             window.scrollTo(0, 0);
-            dispatch({ type: "INIT", initIssue: res.data });
+            dispatch({ type: "ADD_ISSUELIST", initIssue: res.data });
+            // console.log('hi')
             setIsInit(false);
           } else {
-            dispatch({ type: "ADD", initIssue: res.data });
+            dispatch({ type: "INIT_ISSUELIST", initIssue: res.data });
+            // console.log('bye')
           }
         })
         .catch((err) => {
@@ -60,7 +61,7 @@ const Home = () => {
   return (
     <div>
       <div>
-        {issuesData?.map((list, idx) =>
+        {issueList?.map((list, idx) =>
           idx === 4 ? (
             <Advertisement key={list.number} />
           ) : (
