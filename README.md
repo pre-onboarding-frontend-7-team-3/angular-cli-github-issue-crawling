@@ -1,11 +1,9 @@
-### 원티드 프리온보딩 프론트엔드 3팀 - Assignment #2
-프로젝트 내용 : 특정 깃헙 레파지토리([angular-cli](https://github.com/angular/angular-cli))의 이슈 목록과 상세 내용을 확인하는 웹 사이트 구축.
-
-프로젝트 기간 : 2022년 10월 26일 ~ 2022년 10월 31일
-
-배포링크 ([https://issue365.netlify.app/detail/9655](https://issue365.netlify.app/detail/9655))
-
----
+# 원티드 프리온보딩 프론트엔드 3팀 - Assignment #2
+>프로젝트 내용 : 특정 깃헙 레파지토리([angular-cli](https://github.com/angular/angular-cli))의 이슈 목록과 상세 내용을 확인하는 웹 사이트 구축.
+>
+>프로젝트 기간 : 2022년 10월 26일 ~ 2022년 10월 31일
+>
+>[배포링크](https://issue365.netlify.app/)
 
 ## 📖 목차
 
@@ -19,9 +17,9 @@
     - 코드 컨벤션 / 팀원간 규칙 등 ~
 - 팀원
 
-# ⌨️ 프로젝트 실행 방법
+</br>
 
----
+## ⌨️ 프로젝트 실행 방법
 
 프로젝트 실행 :
 
@@ -43,11 +41,11 @@ npm install
 npm start
 ```
 
-# 👨‍👩‍👦‍👦 동료학습
+</br>
 
----
+## 👨‍👩‍👦‍👦 동료학습
 
-## 학습 진행 과정 or 토론 과정 (작명 필요)
+### 학습 진행 과정 or 토론 과정 (작명 필요)
 
 본 프로젝트는 동료학습에 최적화된 과정을 찾아가며 진행했습니다. [VSC Live Code extension]([https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare-pack](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare-pack))을 활용해서 라이브 코드리뷰를 진행하고 각자 구현한 코드에 대한 피드백 및 리팩토링 후 페어프로그래밍 방식으로 Best Practice를 채택했습니다.
 
@@ -61,11 +59,90 @@ npm start
 
 1. Octokit API 기반 비동기 통신
     - GitHub REST API를 사용해서 특정 repository에 접근하고자 GitHub CLI, JavaScript, cURL 중 빠른 초기 개발 환경 구축과 간소화된 로직을 근거로 Octokit API를 채택했습니다. GitHub Actions와도 사용이 가능해 배포 자동화를 고려했을때 적합하다고 판단했습니다.
-    - 참고 파일 client.js
-    
+
+```javascript
+import { Octokit } from "octokit";
+	{/* ... */}
+const octokit = new Octokit({ auth: process.env.REACT_APP_GITHUB_TOKEN });
+	{/* ... */}
+export const octokitApi = async (page) => {
+  const res = await octokit.request("GET /repos/{owner}/{repo}/issues", {
+    owner: "angular",
+    repo: "angular-cli",
+    state: "open",
+    sort: "comments",
+    per_page: 10,
+    page,
+  });
+  return res;
+};
+	{/* ... */}
+export const octokitDetailApi = async (id) => {
+  const res = await octokit.request("GET /repos/{owner}/{repo}/issues/{issue_number}", {
+    owner: "angular",
+    repo: "angular-cli",
+    issue_number: id,
+  });
+  return res;
+};
+```
+
 2. Context API / useReducer 
     - 스크롤 이벤트에 발생하는 비동기 요청마다 상태를 업데이트 시켰습니다. 컴포넌트 단에서 여러 상태를 만들기 보다 컨포넌트간 상태를 공유하고 비동기 요청 형태에 따라 useContext와 userReducer 훅이 적합하다고 의견을 모았습니다. 더 작은 영역에서 확실한 책임을 지도록 커스텀 reducer와 공용 context prodiver 컴포넌트로 로직을 분리해서 관리했습니다.
     
+```javascript
+import { createContext, useContext, useReducer } from "react";
+import issueReducer from "./useIssueReducer";
+	{/* ... */}
+export const dispatchContext = createContext("");
+export const issuesContext = createContext("");
+	{/* ... */}
+const state = { issue: null, issueList: [] };
+	{/* ... */}
+export default function IssuesContextWrapper(props) {
+  const [issueData, dispatch] = useReducer(issueReducer, state);
+	{/* ... */}
+  return (
+    <issuesContext.Provider value={issueData}>
+      <dispatchContext.Provider value={dispatch}>{props.children}</dispatchContext.Provider>
+    </issuesContext.Provider>
+  );
+}
+	{/* ... */}
+export const useIssueContext = () => {
+  const issueState = useContext(issuesContext);
+  if (!issueState) {
+    throw new Error("Error finding issueContext");
+  }
+  return issueState;
+};
+	{/* ... */}
+export const useDispatchContext = () => {
+  const dispatch = useContext(dispatchContext);
+  if (!dispatch) {
+    throw new Error("Error finding dispatchContext");
+  }
+  return dispatch;
+};
+```
+
+```javacsript
+const issueReducer = (state, action) => {
+  switch (action.type) {
+    case "INIT_ISSUELIST":
+      return { ...state.issue, issueList: [...action.initIssue] };
+    case "ADD_ISSUELIST":
+      return { ...state.issue, issueList: [...state.issueList, ...action.initIssue] };
+    case "INIT_ISSUE":
+      return { issue: action.initIssue, ...state.issueList };
+    default:
+      return state;
+  }
+};
+
+export default issueReducer;
+```
+
 3. Intersection Observer API
     - 무한 스크롤을 구현하는 방법에 있어, scroll event의 사용은 debounce나 throttle을 통한 호출 제어가 필요하며, 
     높이 값 조사를 위해 offsetTop을 사용할 때는 layout이 매번 새로 그려져 reflow가 유발됩니다.
@@ -74,10 +151,96 @@ npm start
     구현로직을 간소화하고 훅을 통해 독립적인 함수로 분리했습니다.
     - 참고 파일 useInfiniteScroll.js
     
+```javascript
+// Home
+/** @jsxImportSource @emotion/react */
+import { useEffect, useState } from "react";
+import useInfinityScroll from "../hooks/useInfinityScroll";
+{/* ... */}
+
+const Home = () => {
+	{/* ... */}
+  const [observingPoint, beginObserving] = useInfinityScroll();
+
+  useEffect(() => {
+		{/* ... */}
+    getData(page);
+  }, [page]);
+
+  useEffect(() => {
+    if (isInit) {
+      beginObserving(() => setPage((page) => page + 1));
+    }
+  }, [isInit]);
+
+  return (
+      <div ref={observingPoint}>
+        <Spinner />
+      </div>
+  );
+};
+
+{/* ... */}
+
+export default Home;
+```
+
+```javascript
+// Home
+/** @jsxImportSource @emotion/react */
+import { useEffect, useState } from "react";
+import useInfinityScroll from "../hooks/useInfinityScroll";
+{/* ... */}
+
+const Home = () => {
+	{/* ... */}
+  const [observingPoint, beginObserving] = useInfinityScroll();
+
+  useEffect(() => {
+		{/* ... */}
+    getData(page);
+  }, [page]);
+
+  useEffect(() => {
+    if (isInit) {
+      beginObserving(() => setPage((page) => page + 1));
+    }
+  }, [isInit]);
+
+  return (
+      <div ref={observingPoint}>
+        <Spinner />
+      </div>
+  );
+};
+
+{/* ... */}
+
+export default Home;
+```
+
 4. 반응형 디자인
     - UI를 데스크톱과 모바일에서 보았을 때 모두 읽기 편하게 구현하기 위해 media-query를 사용했습니다. 
     스타일의 재사용성을 고려해서 커스텀 css를 컴포넌트간 공유하게 했습니다.
     - 참고파일 globalStyle.js
+    
+```javascript
+// globalStyle
+import { css } from "@emotion/react";
+
+export const customBodyStyle = css`
+	/* asdfa */
+  @media screen and (min-width: 480px) {
+    width: 28rem;
+  }
+  @media screen and (min-width: 767px) {
+    width: 40rem;
+  }
+  @media screen and (min-width: 959px) {
+    width: 50rem;
+  }
+`;
+```
     
 5. react-markdown / syntax highlighter
     - 초기에 remark 라이브러리와 remark-html을 혼합하여 사용하는 방식을 채택했습니다.
@@ -85,11 +248,39 @@ npm start
     마크다운 레이아웃 및 html 태그 편집에 용이한 마크다운 라이브러리를 사용하자는 의견을 모았습니다. 
     react-markdown은 html 삽입시 `dangerouslySetInnerHTML` 에 의존하지 않아, XSS 공격에도 안전하다는 의견을 공유했습니다.
 
-- 에러 및 해결과정
-1. 렌더링 시 두 번의 비동기 요청
-    - live-share 중  초기 렌더링 시 두 번의 GET 요청이 이루어지고 있었습니다. 
-    확인 결과 useEffect 내부의 로직이 중복 실행됐고 <React.StrictMode>로 개발중임을 확인했습니다. 
-    `<React.StrictMode>` 는 개발 모드로 작업 시, 코드 내의 문제 감지를 위해 내부의 컴포넌트를 2번 실행시켜 오히려 의도치 않은 에러를 발생시키고 있었습니다.
+```javascript
+// Detail
+import Reactmarkdown from "react-markdown";
+import SyntaxHighlighter from "react-syntax-highlighter";
+{/* ... */}
+function Detail() {
+{/* ... */}
+  return (
+    <section>
+	    <Reactmarkdown
+				children={issue?.body}
+	      skipHtml={false}
+				parserOptions={{ commonmark: true }}
+        components={{ code: Component }}
+	    />
+    </section>
+  );
+}
+
+const Component = ({ children }) => {
+{/* ... */}
+  return (
+    <SyntaxHighlighter language="javascript" customStyle={customStyle}>
+      {children}
+    </SyntaxHighlighter>
+  );
+};
+{/* ... */}
+export default Detail;
+```
+
+</br>
+
 
 ## Code Convention
 
@@ -115,23 +306,17 @@ npm start
 | Chore | 환경설정, 빌드 업무, 패키지 매니저 설정등.. |
 | Hotfix | 치명적이거나 급한 버그 수정 |
 
-# 🔑 사용 기술
+</br>
 
----
+## 🔑 사용 기술
 
-(코드로 삽입할 것)
-
-```markdown
 <img alt="HTML5" src ="https://img.shields.io/badge/HTML5-E34F26?&style=flat&logo=HTML5&logoColor=white"/><img alt="CSS3" src ="https://img.shields.io/badge/CSS3-1572B6?&style=flat&logo=CSS3&logoColor=white"/><img alt="JavaScript" src ="https://img.shields.io/badge/JavaScript-F7DF1E?&style=flat&logo=JavaScript&logoColor=white"/><img alt="React" src ="https://img.shields.io/badge/React-61DAFB?&style=flat&logo=React&logoColor=white"/><img alt="React Router Dom" src ="https://img.shields.io/badge/React_Router_DOM-CA4245?&style=flat&logo=ReactRouter&logoColor=white"/>
 
 <img alt="octokit" src ="https://img.shields.io/badge/octokit-071D49?&style=flat&logo=Axios&logoColor=white"/><img alt="emotion" src ="https://img.shields.io/badge/Emotion-512BD4?&style=flat&logoColor=white"/><img alt="react-markdown" src ="https://img.shields.io/badge/react_markdown-9999FF?&style=flat&logoColor=white"/><img alt="react-syntax-highlighter" src ="https://img.shields.io/badge/react_syntax_highlighter-FF3366?&style=flat&logoColor=white"/>
 
 <img alt="Git" src ="https://img.shields.io/badge/Git-F05032?&style=flat&logo=Git&logoColor=white"/><img alt="GitHub" src ="https://img.shields.io/badge/GitHub-181717?&style=flat&logo=GitHub&logoColor=white"/><img alt="Notion" src ="https://img.shields.io/badge/Notion-000000?&style=flat&logo=Notion&logoColor=white"/>
-```
 
-# 📦 폴더 구조
-
----
+## 📦 폴더 구조
 
 ```jsx
 📦 src
@@ -165,19 +350,12 @@ npm start
 └── 📄 index
 ```
 
-# 팀원
+</br>
 
----
-
-(코드로 삽입)
-
-```
-# 👨‍👩‍👧‍👦 Members
+## 👨‍👩‍👧‍👦 팀원
 
 |                                           조은지<br/>(팀장)                                           |                                         고영훈<br/>(서기)                                         |                                            김창희<br/>(팀원)                                             |                                           박정민<br/>(팀원)                                           |                                         문지원<br/>(팀원)                                         |                                            이상민<br/>(팀원)                                            |                                             이지원<br/>(팀원)                                             |                                            조수진<br/>(팀원)                                            |
 | :---------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: |
 | <img src="https://avatars.githubusercontent.com/u/95282989?s=96&v=4" alt="Joeunji0119" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/65995664?s=96&v=4" alt="YeonghunKO" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/45018724?s=96&v=4" alt="PiperChang" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/55550034?s=96&v=4" alt="ono212" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/78708082?s=96&v=4" alt="moonkorea00" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/28257740?s=96&v=4" alt="dltkdals224" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/86206374?s=96&v=4" alt="365supprot" width="60" height="60"> | <img src="https://avatars.githubusercontent.com/u/95282989?s=96&v=4" alt="suzz-in" width="60" height="60"> |
 |                                [Joeunji0119](https://github.com/Joeunji0119)                                |                            [YeonghunKO](https://github.com/YeonghunKO)                            |                               [PiperChang](https://github.com/PiperChang)                                |                                [ono212](https://github.com/ono212)                                |                               [moonkorea00](https://github.com/moonkorea00)                               |                                 [dltkdals224](https://github.com/dltkdals224)                                 |                                 [365support](https://github.com/365support)                                 |                                   [suzz-in](https://github.com/suzz-in)                                   |
 
-</br>
-```
