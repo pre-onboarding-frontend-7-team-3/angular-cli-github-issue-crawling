@@ -1,6 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { customBodyStyle } from "../shared/globalStyle";
+import dateConverter from "../utils/dateConverter";
+import Icon from "./common/Icon";
 
 function List({ list }) {
   return (
@@ -12,11 +14,13 @@ function List({ list }) {
         </div>
         <div css={flexCss}>
           <div css={leftDiv}>작성자: {list.user.login},</div>
-          <div>작성일: {list.created_at}</div>
+          <div>{dateConverter(list.created_at)}</div>
         </div>
       </div>
-
-      <div css={rightContainer}>코멘트: {list.comments}</div>
+      <div css={rightContainer}>
+        <Icon icon="Comment" size={30} />
+        {list.comments}
+      </div>
     </div>
   );
 }
@@ -47,7 +51,12 @@ const flexCss = css`
 
 const rightContainer = css`
   display: flex;
+  justify-content: flex-start;
   align-items: center;
+
+  gap: 5px;
+
+  width: 60px;
 `;
 
 export default List;

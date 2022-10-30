@@ -4,7 +4,7 @@ import { customBodyStyle } from "../shared/globalStyle";
 
 function Advertisement() {
   return (
-    <a href="https://www.wanted.co.kr" rel="wanted">
+    <a href="https://www.wanted.co.kr" rel="wanted noreferrer" target="_blank">
       <div css={imgWrapper}>
         <img
           css={imgCss}
