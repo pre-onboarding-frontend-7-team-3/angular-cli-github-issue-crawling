@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const DetailPage = styled.article`
+export const DetailContainer = styled.article`
   text-align: left;
   img {
     max-width: 100%;

@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 export const IssueContainer = styled.li`
   padding: 8px;
   border-bottom: 1px gray solid;
-  margin-bottom: 5px;
   display: flex;
 `;
 

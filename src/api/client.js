@@ -6,16 +6,12 @@ const octokit = new Octokit({
 });
 
 const octokitDetailAPI = async (issue_number) => {
-  try {
-    const res = await octokit.request("GET /repos/{owner}/{repo}/issues/{issue_number}", {
-      owner: owner,
-      repo: repo,
-      issue_number: issue_number,
-    });
-    return res.data;
-  } catch (err) {
-    console.error(err);
-  }
+  const res = await octokit.request("GET /repos/{owner}/{repo}/issues/{issue_number}", {
+    owner: owner,
+    repo: repo,
+    issue_number: issue_number,
+  });
+  return res.data;
 };
 
 const octokitAPI = async (pageNum) => {

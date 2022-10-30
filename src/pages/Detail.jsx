@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { octokitDetailAPI } from "../api/client";
 import ReactMarkdown from "react-markdown";
 import {
@@ -14,28 +14,38 @@ import {
   IssueTitle,
   IssueProfile,
 } from "../style/issueStyle";
-import { DetailPage } from "../style/detailStyle";
+import { DetailContainer } from "../style/detailStyle";
 
 const Detail = () => {
   const [issue, setIssue] = useState({});
   const { issue_number } = useParams();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const getIssueData = async () => {
       return await octokitDetailAPI(issue_number);
     };
-    getIssueData().then(async (data) => {
-      setIssue({ ...data });
-    });
+    getIssueData().then(
+      (data) => {
+        setIssue({ ...data });
+      },
+      (err) => {
+        navigate("/Error", {state :{status :err.status, message: err.message}})
+      },
+    );
   }, []);
 
   return (
     <>
       {issue.user && (
-        <DetailPage>
+        <DetailContainer>
           <IssueContainer>
-            <IssueProfile src={issue.user.avatar_url} loading="lazy" alt="profile_photo">
-            </IssueProfile>
+            <IssueProfile
+              src={issue.user.avatar_url}
+              loading="lazy"
+              alt="profile_photo"
+            ></IssueProfile>
             <IssueInfoContainer>
               <IssueHeader>
                 <IssueNumber>#{issue.number}</IssueNumber>
@@ -49,12 +59,10 @@ const Detail = () => {
             <IssueComment>코멘트: {issue.comments}</IssueComment>
           </IssueContainer>
           <ReactMarkdown>{issue.body}</ReactMarkdown>
-        </DetailPage>
+        </DetailContainer>
       )}
     </>
   );
 };
 
 export default Detail;
-
-
