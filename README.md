@@ -1,5 +1,5 @@
 # 원티드 프리온보딩 프론트엔드 3팀 - Angular cli github issue crawling
->특정 깃헙 레파지토리([angular-cli](https://github.com/angular/angular-cli))의 이슈 목록과 상세 내용을 확인하는 웹 사이트 구축.
+>특정 깃헙 레파지토리([angular-cli](https://github.com/angular/angular-cli))의 이슈 목록과 상세 내용을 확인하는 웹 사이트 구축
 >
 >프로젝트 기간 : 2022년 10월 26일 ~ 2022년 10월 31일
 >
