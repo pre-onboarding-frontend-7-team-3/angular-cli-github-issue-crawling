@@ -6,7 +6,7 @@ import { octokitDetailApi } from "../api/client";
 import { useIssueContext, useDispatchContext } from "../store/IssuesContext";
 import Reactmarkdown from "react-markdown";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { customBodyStyle } from "../shared/globalStyle";
+import { customBodyStyle, media } from "../shared/globalStyle";
 import List from "../component/List";
 import { issuesContext, dispatchContext } from "../store/IssuesContext";
 import { MarkdownImage } from "../component/MarkdownImage";
@@ -78,6 +78,10 @@ const userDataWrapper = css`
   ${customBodyStyle}
   padding: 0 30px;
   display: flex;
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const imgCss = css`
@@ -85,6 +89,11 @@ const imgCss = css`
   height: 100px;
   border-radius: 100%;
   margin-top: 70px;
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+    align-items: center;
+    /* margin: 0; */
+  }
 `;
 
 export default Detail;

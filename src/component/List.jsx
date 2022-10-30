@@ -1,19 +1,19 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { customBodyStyle } from "../shared/globalStyle";
+import { customBodyStyle, mediaText } from "../shared/globalStyle";
 import dateConverter from "../utils/dateConverter";
 import Icon from "./common/Icon";
 
 function List({ list }) {
   return (
     <div css={divContainer}>
-      <div css={leftContainer}>
-        <div css={titleCss}>
-          <div css={leftDiv}>#{list.number}</div>
+      <div css={info}>
+        <div className="issue-title" css={titleCss}>
+          <div css={author}>#{list.number}</div>
           <div>{list.title}</div>
         </div>
-        <div css={flexCss}>
-          <div css={leftDiv}>작성자: {list.user.login},</div>
+        <div className="issue-author" css={flexCss}>
+          <div css={author}>작성자: {list.user.login},</div>
           <div>{dateConverter(list.created_at)}</div>
         </div>
       </div>
@@ -27,21 +27,24 @@ function List({ list }) {
 
 const divContainer = css`
   ${customBodyStyle}
+  margin:48px 0;
   display: flex;
   justify-content: space-between;
+  padding: 1rem;
 `;
 
-const leftContainer = css`
+const info = css`
   width: 80%;
+  ${mediaText}
 `;
 
 const titleCss = css`
-  font-size: 20px;
   display: flex;
+  font-weight: bold;
   margin-bottom: 20px;
 `;
 
-const leftDiv = css`
+const author = css`
   margin-right: 10px;
 `;
 

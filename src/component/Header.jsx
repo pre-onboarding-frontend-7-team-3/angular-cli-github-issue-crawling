@@ -8,15 +8,16 @@ function Header({ repository_url, issue_number = null }) {
   const { repo, issue_num } = cutParams(repository_url);
 
   return (
-    <div css={headerWrapper}>
+    <header css={headerWrapper}>
       {`${repo} / ${issue_num}`}
       {issue_number ? ` / #${issue_number}` : ""}
-    </div>
+    </header>
   );
 }
 
 const headerWrapper = css`
   ${customBodyStyle}
+  padding:1rem;
   display: flex;
   justify-content: space-between;
   font-size: 30px;
