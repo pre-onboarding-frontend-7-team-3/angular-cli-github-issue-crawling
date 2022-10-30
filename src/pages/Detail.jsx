@@ -33,13 +33,15 @@ function Detail() {
             <img css={imgCss} alt="user" src={data.user.avatar_url} />
             <List list={data} />
           </div>
-          <Reactmarkdown
-            children={data?.body}
-            skipHtml={false}
-            // rehypePlugins={[rehypeRaw]}
-            parserOptions={{ commonmark: true }}
-            components={{ code: Component }}
-          />
+          <div css={customBodyStyle}>
+            <Reactmarkdown
+              children={data?.body}
+              skipHtml={false}
+              // rehypePlugins={[rehypeRaw]}
+              parserOptions={{ commonmark: true }}
+              components={{ code: Component }}
+            />
+          </div>
         </>
       )}
     </>
