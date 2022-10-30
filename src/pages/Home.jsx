@@ -20,6 +20,7 @@ const Home = () => {
 
   const [page, setPage] = useState(1);
   const [isInit, setIsInit] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
   const [observingPoint, beginObserving] = useInfinityScroll();
 
   useEffect(() => {
@@ -31,29 +32,21 @@ const Home = () => {
             dispatch({ type: "INIT", initIssue: res.data });
             setIsInit(false);
           } else {
+            res.data.length === 0 && setIsEnd(true);
             dispatch({ type: "ADD", initIssue: res.data });
           }
         })
         .catch((err) => {
-          navigate("/error", { state: "데이터를 불러오는데 실패했습니다" });
+          navigate("/error", { state: `데이터를 불러오는데 실패했습니다 ${err}` });
         });
     };
+
     getData(page);
   }, [page]);
 
   useEffect(() => {
     if (isInit) {
       beginObserving(() => setPage((page) => page + 1));
-      //   const observer = new IntersectionObserver(
-      //     (entries) => {
-      //       if (entries[0].isIntersecting) {
-      //         setPage((page) => page + 1);
-      //       }
-      //     },
-      //     { threshold: 1 },
-      //   );
-      //   observer.observe(observingPoint.current);
-      // }
     }
   }, [isInit]);
 
@@ -70,9 +63,11 @@ const Home = () => {
           ),
         )}
       </div>
-      <div ref={observingPoint}>
-        <Spinner />
-      </div>
+      {!isEnd && (
+        <div ref={observingPoint}>
+          <Spinner />
+        </div>
+      )}
     </div>
   );
 };
