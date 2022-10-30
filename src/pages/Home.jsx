@@ -17,8 +17,11 @@ const Home = () => {
 
   const { issueList } = useContext(issuesContext);
   const dispatch = useContext(dispatchContext);
+
   const [page, setPage] = useState(1);
   const [isInit, setIsInit] = useState(true);
+
+  const [isEnd, setIsEnd] = useState(false);
   const [observingPoint, beginObserving] = useInfinityScroll();
 
   useEffect(() => {
@@ -28,55 +31,49 @@ const Home = () => {
           if (isInit) {
             window.scrollTo(0, 0);
             dispatch({ type: "ADD_ISSUELIST", initIssue: res.data });
-            // console.log('hi')
             setIsInit(false);
           } else {
             dispatch({ type: "INIT_ISSUELIST", initIssue: res.data });
-            // console.log('bye')
           }
         })
         .catch((err) => {
           navigate("/error", { state: "데이터를 불러오는데 실패했습니다" });
         });
     };
+    
     getData(page);
   }, [page]);
 
   useEffect(() => {
     if (isInit) {
       beginObserving(() => setPage((page) => page + 1));
-      //   const observer = new IntersectionObserver(
-      //     (entries) => {
-      //       if (entries[0].isIntersecting) {
-      //         setPage((page) => page + 1);
-      //       }
-      //     },
-      //     { threshold: 1 },
-      //   );
-      //   observer.observe(observingPoint.current);
-      // }
     }
   }, [isInit]);
 
   return (
-    <div>
-      <div>
-        {issueList?.map((list, idx) =>
-          idx === 4 ? (
-            <Advertisement key={list.number} />
-          ) : (
-            <Link to={`/detail/${list.number}`} key={list.number} css={linkCss}>
-              <List list={list} />
-            </Link>
-          ),
-        )}
-      </div>
-      <div ref={observingPoint}>
-        <Spinner />
-      </div>
-    </div>
+    <section>
+      {issueList.length && <Header repository_url={issueList[0]?.repository_url} />}
+      {issueList?.map((list, idx) => (
+        <div key={list.number} css={issuesContainer}>
+          {idx === 4 && <Advertisement />}
+          <Link to={`/detail/${list.number}`} key={list.number} css={linkCss}>
+            <List list={list} />
+          </Link>
+        </div>
+      ))}
+      {!isEnd && (
+        <div ref={observingPoint}>
+          <Spinner />
+        </div>
+      )}
+    </section>
   );
 };
+
+const issuesContainer = css`
+  width: fit-content;
+  margin: 0 auto;
+`;
 
 const linkCss = css`
   text-decoration: none;

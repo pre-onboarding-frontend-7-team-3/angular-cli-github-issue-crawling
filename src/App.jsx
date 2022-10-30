@@ -8,7 +8,6 @@ import PageUpButton from "./component/common/PageUpButton";
 function App() {
   return (
     <IssuesContextWrapper>
-      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/detail/:id" element={<Detail />} />

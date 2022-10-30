@@ -2,8 +2,13 @@
 import { css } from "@emotion/react";
 import { customBodyStyle } from "../shared/globalStyle";
 
-function Header() {
-  return <div css={headerWrapper}>Angular / Angular-cli</div>;
+function Header({ repository_url, issue_number = null }) {
+  return (
+    <div css={headerWrapper}>
+      {}
+      {issue_number ?? ""}
+    </div>
+  );
 }
 
 const headerWrapper = css`

@@ -9,6 +9,8 @@ import { customBodyStyle } from "../shared/globalStyle";
 import List from "../component/List";
 import { issuesContext, dispatchContext } from "../store/IssuesContext";
 
+import Header from "../component/Header";
+
 function Detail() {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -26,22 +28,25 @@ function Detail() {
   }, []);
 
   return (
-    <>
+    <section>
+      {issue && <Header repository_url={issue?.repository_url} issue_number={issue.number} />}
       {issue && (
         <>
           <div css={userDataWrapper}>
-            <img css={imgCss} alt="user" src={issue.user.avatar_url} />
+            <img css={imgCss} alt={"user"} src={issue.user.avatar_url} />
             <List list={issue} />
           </div>
-          <Reactmarkdown
-            children={issue?.body}
-            skipHtml={false}
-            parserOptions={{ commonmark: true }}
-            components={{ code: Component }}
-          />
+          <div css={customBodyStyle}>
+            <Reactmarkdown
+              children={issue?.body}
+              skipHtml={false}
+              parserOptions={{ commonmark: true }}
+              components={{ code: Component }}
+            />
+          </div>
         </>
       )}
-    </>
+    </section>
   );
 }
 
