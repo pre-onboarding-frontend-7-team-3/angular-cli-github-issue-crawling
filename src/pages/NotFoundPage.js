@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import styled from "@emotion/styled";
-import useTitle from "../../hooks/useTitle";
-import Layout from "../../components/common/Layout";
+import useTitle from "../hooks/useTitle";
+import Layout from "../components/common/Layout";
 
 const NotFoundPage = () => {
   const navigate = useNavigate();

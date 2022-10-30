@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import IssueList from "./pages/issueList/IssueList";
-import IssueDetail from "./pages/issueDetail/IssueDetail";
-import ErrorPage from "./pages/errorPage/ErrorPage";
-import NotFoundPage from "./pages/notFoundPage/NotFoundPage";
+import IssueList from "./pages/IssueList";
+import IssueDetail from "./pages/IssueDetail";
+import ErrorPage from "./pages/ErrorPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
-function App() {
+function Router() {
   return (
     <BrowserRouter>
       <Routes>
@@ -18,4 +18,4 @@ function App() {
   );
 }
 
-export default App;
+export default Router;

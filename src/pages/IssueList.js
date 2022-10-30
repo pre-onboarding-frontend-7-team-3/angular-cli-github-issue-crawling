@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { IssueListContainer } from "./Style";
-import { useIssuesState, useListDispatchAction } from "../../context/issuesContext";
-import useInfiniteScroll from "../../hooks/useInfiniteScroll";
-import IssueListItem from "../../components/issue/IssueListItem/IssueListItem";
-import WantedAd from "../../components/common/WantedAd";
-import useTitle from "../../hooks/useTitle";
-import Layout from "../../components/common/Layout";
+import styled from "@emotion/styled";
+import { useIssuesState, useListDispatchAction } from "../context/issuesContext";
+import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import IssueListItem from "../components/issue/IssueListItem/IssueListItem";
+import WantedAd from "../components/common/WantedAd";
+import useTitle from "../hooks/useTitle";
+import Layout from "../components/common/Layout";
 
 const IssueList = () => {
   const issues = useIssuesState();
@@ -34,3 +34,9 @@ const IssueList = () => {
 };
 
 export default IssueList;
+
+const IssueListContainer = styled.section`
+  width: 70vw;
+  height: 100%;
+  margin: 0 auto;
+`;

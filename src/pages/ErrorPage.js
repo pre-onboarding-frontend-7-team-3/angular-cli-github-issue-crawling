@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
-import useTitle from "../../hooks/useTitle";
-import { Template, RedirectButton } from "../notFoundPage/NotFoundPage";
-import Layout from "../../components/common/Layout";
+import useTitle from "../hooks/useTitle";
+import { Template, RedirectButton } from "./NotFoundPage";
+import Layout from "../components/common/Layout";
 
 const ErrorPage = () => {
   const navigate = useNavigate();

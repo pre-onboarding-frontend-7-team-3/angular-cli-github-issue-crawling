@@ -7,12 +7,12 @@ import IssueListItem from "../IssueListItem/IssueListItem";
 const IssueDetailItem = () => {
   const getIssueDetail = useDetailDispatchAction();
   const { markdown, issueDetail } = useIssueState();
-  
+
   const { id } = useParams();
 
   useEffect(() => {
     getIssueDetail(id);
-  }, [ id]);
+  }, [id]);
 
   return (
     <>
