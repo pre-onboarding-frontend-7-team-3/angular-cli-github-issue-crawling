@@ -37,8 +37,10 @@ const Home = () => {
             res.data.length === 0 && setIsEnd(true);
           }
         })
-        .catch((err) => {
-          navigate("/error", { state: "데이터를 불러오는데 실패했습니다" });
+        .catch((error) => {
+          navigate("/error", {
+            state: `${error}`,
+          });
         });
     };
 

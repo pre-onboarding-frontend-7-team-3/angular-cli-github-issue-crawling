@@ -26,8 +26,10 @@ function Detail() {
         .then((res) => {
           dispatch({ type: "INIT_ISSUE", initIssue: res.data });
         })
-        .catch(() => {
-          navigate("/error", { state: "데이터를 불러오는데 실패했습니다" });
+        .catch((error) => {
+          navigate("/error", {
+            state: `${error}`,
+          });
         });
     }
   }, []);

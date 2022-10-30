@@ -17,3 +17,10 @@ export const customBodyStyle = css`
     width: 50rem;
   }
 `;
+
+export const centerInside = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
