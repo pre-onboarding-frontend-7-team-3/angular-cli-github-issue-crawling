@@ -2,8 +2,7 @@ import styled from "@emotion/styled";
 const Spinner = () => {
   return (
     <SpinnerContainer>
-      {" "}
-      <Circle />{" "}
+      <Circle />
     </SpinnerContainer>
   );
 };
