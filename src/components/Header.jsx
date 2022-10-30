@@ -1,24 +1,28 @@
 /** @jsxImportSource @emotion/react */
 // import React from "react";
 import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-  return <Layout>Angular / Angular-cli </Layout>;
+  const navigate = useNavigate();
+  const TogoMain = () => {
+    navigate("./");
+  };
+  return <Layout onClick={TogoMain}>Angular / Angular-cli </Layout>;
 };
 
 export default Header;
 
 export const Layout = styled.div`
   top: 0;
+  right: 1px;
   position: fixed;
-  width: 100%;
+  width: 100vw;
   height: 80px;
-  border: black 1px solid;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
   font-size: 30px;
-  z-index: 1000;
-  background-color: beige;
+  background-color: white;
+  cursor: pointer;
 `;

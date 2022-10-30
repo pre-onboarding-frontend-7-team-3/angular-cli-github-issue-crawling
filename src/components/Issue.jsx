@@ -1,22 +1,29 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import React, { forwardRef } from "react";
+import { Link } from "react-router-dom";
+import { forwardRef } from "react";
+import { Advertisement } from "./Advertisement";
 
-const Issue = forwardRef(({ id, title, login, created_at, comments }, ref) => {
+const Issue = forwardRef(({ number, title, login, created_at, comments, idx }, ref) => {
   return (
-    <LayoutIssue ref={ref}>
-      <IssueInfoBox>
-        <IssueNumTitle>
-          <IssueNum>#{id}</IssueNum>
-          <IssueTitle>{title}</IssueTitle>
-        </IssueNumTitle>
-        <IssueNameDate>
-          <IssueName>작성자 :{login}</IssueName>
-          <IssueDate>작성일 :{created_at}</IssueDate>
-        </IssueNameDate>
-      </IssueInfoBox>
-      <CommentNum>코멘트 :{comments}</CommentNum>
-    </LayoutIssue>
+    <>
+      {idx === 4 && <Advertisement />}
+      <Link key={number} to={`/${number}`}>
+        <LayoutIssue ref={ref}>
+          <IssueInfoBox>
+            <IssueNumTitle>
+              <IssueNum>#{number}</IssueNum>
+              <IssueTitle>{title}</IssueTitle>
+            </IssueNumTitle>
+            <IssueNameDate>
+              <IssueName>작성자 :{login}</IssueName>
+              <IssueDate>작성일 :{created_at}</IssueDate>
+            </IssueNameDate>
+          </IssueInfoBox>
+          <CommentNum>코멘트 :{comments}</CommentNum>
+        </LayoutIssue>
+      </Link>
+    </>
   );
 });
 
@@ -30,6 +37,7 @@ export const LayoutIssue = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-top: 30px;
+  z-index: 1;
 
   @media (max-width: 1000px) {
     width: 700px;

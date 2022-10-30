@@ -1,3 +1,3 @@
 export const TOKEN = {
-  USER: "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",
+  USER: "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",
 };
