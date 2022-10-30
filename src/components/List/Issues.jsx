@@ -18,4 +18,5 @@ export default Issues;
 
 const issuesContainer = css`
   width: 600px;
+  margin:auto;
 `;

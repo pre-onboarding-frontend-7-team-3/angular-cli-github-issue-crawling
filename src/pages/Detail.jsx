@@ -1,9 +1,8 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { octokitDetailAPI } from "../api/issue";
-import ReactMarkdown from "react-markdown";
 import {
   IssueContainer,
   IssueComment,
@@ -15,12 +14,15 @@ import {
   IssueProfile,
 } from "../style/issueStyle";
 import { DetailContainer } from "../style/detailStyle";
+import Spinner from "../components/common/Spinner";
+
+const DetailBody = lazy(() =>
+  import("../components/Detail/DetailBody"));
 
 const Detail = () => {
   const [issue, setIssue] = useState({});
   const { issue_number } = useParams();
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const getIssueData = async () => {
@@ -31,7 +33,7 @@ const Detail = () => {
         setIssue({ ...data });
       },
       (err) => {
-        navigate("/Error", {state :{status :err.status, message: err.message}})
+        navigate("/Error", { state: { status: err.status, message: err.message } });
       },
     );
   }, []);
@@ -58,7 +60,9 @@ const Detail = () => {
             </IssueInfoContainer>
             <IssueComment>코멘트: {issue.comments}</IssueComment>
           </IssueContainer>
-          <ReactMarkdown>{issue.body}</ReactMarkdown>
+          <Suspense fallback={<Spinner />}>
+            <DetailBody body={issue.body} />
+          </Suspense>
         </DetailContainer>
       )}
     </>
