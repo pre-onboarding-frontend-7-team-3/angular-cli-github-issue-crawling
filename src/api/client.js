@@ -7,8 +7,8 @@ const octokit = new Octokit({
 
 const octokitDetailAPI = async (issue_number) => {
   const res = await octokit.request("GET /repos/{owner}/{repo}/issues/{issue_number}", {
-    owner: owner,
-    repo: repo,
+    owner,
+    repo,
     issue_number: issue_number,
   });
   return res.data;
@@ -17,8 +17,8 @@ const octokitDetailAPI = async (issue_number) => {
 const octokitAPI = async (pageNum) => {
   try {
     const res = await octokit.request("GET /repos/{owner}/{repo}/issues", {
-      owner: owner,
-      repo: repo,
+      owner,
+      repo,
       state: "open",
       sort: "comments",
       per_page: 20,

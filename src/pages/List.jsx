@@ -17,7 +17,12 @@ const List = () => {
 
   useEffect(() => {
     getMoreIssues().then((data) => {
-      dispatch({ type: "ADD", issues: data });
+      if (pageNum === 1) {
+        console.log(" INIT ")
+        dispatch({ type: "INIT", issues: data });        
+      } else {
+        dispatch({ type: "ADD", issues: data });        
+      }
     });
   }, [pageNum]);
 
