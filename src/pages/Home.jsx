@@ -53,7 +53,7 @@ const Home = () => {
 
   return (
     <section>
-      {issueList?.length && <Header repository_url={issueList[0]?.repository_url} />}
+      {issueList && <Header repository_url={issueList[0]?.repository_url} />}
       {issueList?.map((list, idx) => (
         <div key={list.number} css={issuesContainer}>
           {idx === 4 && <Advertisement />}
