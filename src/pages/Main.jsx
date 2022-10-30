@@ -1,71 +1,83 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import styled from "@emotion/styled";
 import Issue from "../components/Issue";
-import { useInView } from "react-intersection-observer";
 import { TOKEN } from "../config";
 import { Octokit } from "octokit";
 import { useIssue } from "../contexts/issueContext";
 import Loading from "../components/Loading";
-import Error from "../components/Error";
 
 const Main = () => {
   const [issue, setIssue] = useIssue({});
-  const [page, setPage] = useState(1);
+  const pageNum = useRef(1);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [ref, inView] = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-  });
 
   const octokit = new Octokit({
     auth: TOKEN.USER,
   });
 
+  useEffect(() => {
+    octokit
+      .request("GET /repos/{owner}/{repo}/issues", {
+        owner: "angular",
+        repo: "angular-cli",
+        state: "open",
+        sort: "comments",
+        per_page: 10,
+        page: 1,
+      })
+      .then((res) => {
+        setIssue(res.data);
+      });
+  }, []);
+
   const octokitApi = async () => {
-    try {
-      setLoading(true);
-      await octokit
-        .request("GET /repos/{owner}/{repo}/issues", {
-          owner: "angular",
-          repo: "angular-cli",
-          state: "open",
-          sort: "comments",
-          per_page: 10,
-          page: page,
-        })
-        .then(({ data }) => {
-          setIssue((prevState) => [...prevState, ...data]);
-        });
-      setPage((prevState) => prevState + 1);
-      setLoading(false);
-    } catch (err) {
-      setError(true);
-      throw new Error(`Error! Status: ${err.status} Message: ${err.response.data.message}`);
-    }
+    pageNum.current += 1;
+    setLoading(true);
+    await octokit
+      .request("GET /repos/{owner}/{repo}/issues", {
+        owner: "angular",
+        repo: "angular-cli",
+        state: "open",
+        sort: "comments",
+        per_page: 10,
+        page: pageNum.current,
+      })
+      .then((res) => {
+        setIssue((prev) => [...prev, ...res.data]);
+      });
+    setLoading(false);
   };
 
   useEffect(() => {
-    if (inView) {
-      octokitApi();
-    }
-  }, [page, inView]);
+    let timer;
+    window.addEventListener("scroll", () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(() => {
+        const scrollHeight = document.documentElement.scrollHeight;
+        const scrollTop = document.documentElement.scrollTop;
+        const clientHeight = document.documentElement.clientHeight;
+
+        if (scrollHeight + scrollTop >= clientHeight - 10) {
+          octokitApi();
+        }
+      }, 400);
+    });
+  }, []);
 
   return (
     <Layout>
       {loading ? <Loading /> : null}
-      {error ? <Error /> : null}
       <ListLayout>
-        {issue?.map((el, idx) => {
+        {issue.map((el, idx) => {
           return (
             <div key={el.id}>
               {issue.length - 1 === idx ? (
                 <Issue
                   {...issue}
                   number={el.number}
-                  ref={ref}
                   title={el.title}
                   login={el.user.login}
                   created_at={el.created_at}
@@ -86,7 +98,6 @@ const Main = () => {
             </div>
           );
         })}
-        <div ref={ref} />
       </ListLayout>
     </Layout>
   );

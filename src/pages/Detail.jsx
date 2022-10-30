@@ -1,14 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import Issue from "../components/Issue";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
 import { Octokit } from "octokit";
 import { TOKEN } from "../config";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Loading from "../components/Loading";
+import Error from "../components/Error";
 
 const Detail = () => {
   const params = useParams();
@@ -16,6 +16,7 @@ const Detail = () => {
   const [issue, setIssue] = useState([]);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const octokit = new Octokit({
     auth: TOKEN.USER,
@@ -32,6 +33,7 @@ const Detail = () => {
       setUser(data.user);
       setLoading(false);
     } catch (err) {
+      setError(true);
       console.log(err);
     }
   };
@@ -39,10 +41,10 @@ const Detail = () => {
   useEffect(() => {
     DetailApi();
   }, []);
-
   return (
     <DetailLayout>
       {loading ? <Loading /> : null}
+      {error ? <Error /> : null}
       <DetailListLayout>
         <Profile>
           <ProfileImg src={user.avatar_url} alt="profileImg" />
