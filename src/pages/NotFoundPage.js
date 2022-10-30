@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 import styled from "@emotion/styled";
 import useTitle from "../hooks/useTitle";
 import Layout from "../components/common/Layout";
+import { ROUTES } from "../constants/Routes";
 
 const NotFoundPage = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const NotFoundPage = () => {
         <h1>페이지를 찾을 수 없습니다.</h1>
         <RedirectButton
           onClick={() => {
-            navigate("/", { replace: true });
+            navigate(ROUTES.MAIN, { replace: true });
           }}
         >
           메인으로 돌아가기
