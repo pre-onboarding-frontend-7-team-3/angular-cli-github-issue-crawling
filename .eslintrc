@@ -2,6 +2,7 @@
   "extends": ["prettier", "react-app", "eslint:recommended"],
   "rules": {
     "no-console": ["error", { "allow": ["error"] }],
-    "curly": "error"
+    "curly": "error",
+    "no-unused-vars": "off"
   }
 }
