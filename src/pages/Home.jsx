@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
-import { dispatchContext, issuesContext } from "../store/IssuesContext";
 import { octokitApi } from "../api/client";
 import useInfinityScroll from "../hooks/useInfinityScroll";
+import { useIssueContext, useDispatchContext } from "../store/IssuesContext";
 
 import List from "../component/List";
 import Header from "../component/Header";
@@ -15,8 +15,8 @@ import Spinner from "../component/Loading";
 const Home = () => {
   const navigate = useNavigate();
 
-  const { issueList } = useContext(issuesContext);
-  const dispatch = useContext(dispatchContext);
+  const { issueList } = useIssueContext();
+  const dispatch = useDispatchContext();
 
   const [page, setPage] = useState(1);
   const [isInit, setIsInit] = useState(true);
@@ -40,7 +40,7 @@ const Home = () => {
           navigate("/error", { state: "데이터를 불러오는데 실패했습니다" });
         });
     };
-    
+
     getData(page);
   }, [page]);
 
@@ -52,7 +52,7 @@ const Home = () => {
 
   return (
     <section>
-      {issueList.length && <Header repository_url={issueList[0]?.repository_url} />}
+      {issueList && <Header repository_url={issueList[0]?.repository_url} />}
       {issueList?.map((list, idx) => (
         <div key={list.number} css={issuesContainer}>
           {idx === 4 && <Advertisement />}

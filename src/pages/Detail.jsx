@@ -1,21 +1,22 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { octokitDetailApi } from "../api/client";
 import Reactmarkdown from "react-markdown";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { customBodyStyle } from "../shared/globalStyle";
 import List from "../component/List";
-import { issuesContext, dispatchContext } from "../store/IssuesContext";
+import { useIssueContext, useDispatchContext } from "../store/IssuesContext";
 
 import Header from "../component/Header";
 
 function Detail() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { issue } = useContext(issuesContext);
-  const dispatch = useContext(dispatchContext);
+
+  const { issue } = useIssueContext();
+  const dispatch = useDispatchContext();
 
   useEffect(() => {
     octokitDetailApi(id)

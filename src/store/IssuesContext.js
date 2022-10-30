@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useContext, useReducer } from "react";
 import issueReducer from "./useIssueReducer";
 
 export const dispatchContext = createContext("");
@@ -15,3 +15,19 @@ export default function IssuesContextWrapper(props) {
     </issuesContext.Provider>
   );
 }
+
+export const useIssueContext = () => {
+  const issueState = useContext(issuesContext);
+  if (!issueState) {
+    throw new Error("Error finding issueContext");
+  }
+  return issueState;
+};
+
+export const useDispatchContext = () => {
+  const dispatch = useContext(dispatchContext);
+  if (!dispatch) {
+    throw new Error("Error finding dispatchContext");
+  }
+  return dispatch;
+};
