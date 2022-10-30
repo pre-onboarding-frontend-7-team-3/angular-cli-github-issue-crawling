@@ -10,7 +10,7 @@ const Header = () => {
 
 export default Header;
 
-const HeaderContainer = styled.div`
+const HeaderContainer = styled.section`
   height: 15vh;
   min-width: 300px;
   display: flex;
