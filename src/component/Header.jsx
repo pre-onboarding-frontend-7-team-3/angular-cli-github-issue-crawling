@@ -2,11 +2,15 @@
 import { css } from "@emotion/react";
 import { customBodyStyle } from "../shared/globalStyle";
 
+import cutParams from "../utils/cutParams";
+
 function Header({ repository_url, issue_number = null }) {
+  const { repo, issue_num } = cutParams(repository_url);
+
   return (
     <div css={headerWrapper}>
-      {}
-      {issue_number ?? ""}
+      {`${repo} / ${issue_num}`}
+      {issue_number ? ` / #${issue_number}` : ""}
     </div>
   );
 }
