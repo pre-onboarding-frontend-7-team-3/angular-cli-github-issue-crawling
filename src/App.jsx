@@ -1,24 +1,18 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Main from "./pages/main/Main";
+import { IssueProvider } from "./contexts/issueContext";
+import Main from "./components/Main";
 import Header from "./components/Header";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Main />} />
-
-        {/* <Route
-        path="/todo"
-        element={
-          <Suspense fallback={<div css={mainContainer}>...로딩중</div>}>
-            <Todo />
-          </Suspense>
-        }
-      /> */}
-      </Routes>
-    </BrowserRouter>
+    <IssueProvider>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Main />} />
+        </Routes>
+      </BrowserRouter>
+    </IssueProvider>
   );
 }
 

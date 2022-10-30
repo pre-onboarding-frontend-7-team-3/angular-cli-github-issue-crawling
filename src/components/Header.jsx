@@ -3,7 +3,7 @@
 import styled from "@emotion/styled";
 
 const Header = () => {
-  return <Layout>angular / angular-cli </Layout>;
+  return <Layout>Angular / Angular-cli </Layout>;
 };
 
 export default Header;

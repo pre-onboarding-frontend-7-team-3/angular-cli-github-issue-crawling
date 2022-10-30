@@ -1,34 +1,47 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
+import React, { forwardRef } from "react";
 
-const Issue = () => {
+const Issue = forwardRef(({ id, title, login, created_at, comments }, ref) => {
   return (
-    <LayoutIssue>
+    <LayoutIssue ref={ref}>
       <IssueInfoBox>
         <IssueNumTitle>
-          <IssueNum>#111</IssueNum>
-          <IssueTitle>이슈타이틀</IssueTitle>
+          <IssueNum>#{id}</IssueNum>
+          <IssueTitle>{title}</IssueTitle>
         </IssueNumTitle>
         <IssueNameDate>
-          <IssueName>작성자 : name</IssueName>
-          <IssueDate>작성일 : 2019년 12월 31일</IssueDate>
+          <IssueName>작성자 :{login}</IssueName>
+          <IssueDate>작성일 :{created_at}</IssueDate>
         </IssueNameDate>
       </IssueInfoBox>
-      <CommentNum> 코멘트 3명</CommentNum>
+      <CommentNum>코멘트 :{comments}</CommentNum>
     </LayoutIssue>
   );
-};
+});
 
 export default Issue;
 
 export const LayoutIssue = styled.div`
   width: 1000px;
   height: 100px;
-  border: solid 1px black;
+  border-bottom: solid 1px black;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 30px;
+
+  @media (max-width: 1000px) {
+    width: 700px;
+    height: 100px;
+    font-size: 17px;
+  }
+
+  @media (max-width: 768px) {
+    width: 500px;
+    height: 100px;
+    font-size: 13px;
+  }
 `;
 
 export const IssueInfoBox = styled.div`
@@ -48,7 +61,7 @@ export const IssueTitle = styled.div``;
 
 export const IssueNameDate = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   font-size: 15px;
 `;
 
