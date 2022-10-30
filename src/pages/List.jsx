@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useContext } from "react";
 import { octokitAPI } from "../api/client";
+import Spinner from "../components/common/Spinner";
 import Issues from "../components/List/Issues";
 import { issueDispatchContext } from "../context/issueContext";
 
@@ -40,6 +41,7 @@ const List = () => {
   return (
     <main>
       <Issues />
+      <Spinner />
       <footer ref={observerRef}><h1>Footer!!!!!</h1></footer>
     </main>
   );
