@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
 import { octokitApi } from "../api/client";
 import useInfinityScroll from "../hooks/useInfinityScroll";
-import { useIssueContext, useDispatchContext } from "../store/IssuesContext";
+import { issuesContext, dispatchContext } from "../store/IssuesContext";
 
 import List from "../component/List";
 import Header from "../component/Header";
@@ -15,8 +15,8 @@ import Spinner from "../component/Loading";
 const Home = () => {
   const navigate = useNavigate();
 
-  const { issueList } = useIssueContext();
-  const dispatch = useDispatchContext();
+  const { issueList } = useContext(issuesContext);
+  const dispatch = useContext(dispatchContext);
 
   const [page, setPage] = useState(0);
   const [isInit, setIsInit] = useState(true);
@@ -53,15 +53,20 @@ const Home = () => {
 
   return (
     <section>
-      {issueList && <Header repository_url={issueList[0]?.repository_url} />}
-      {issueList?.map((list, idx) => (
-        <div key={list.number} css={issuesContainer}>
-          {idx === 4 && <Advertisement />}
-          <Link to={`/detail/${list.number}`} key={list.number} css={linkCss}>
-            <List list={list} />
-          </Link>
-        </div>
-      ))}
+      {issueList?.length > 0 && (
+        <>
+          <Header repository_url={issueList[0].repository_url} />
+          {issueList.map((list, idx) => (
+            <div key={list.number} css={issuesContainer}>
+              {idx === 4 && <Advertisement />}
+              <Link to={`/detail/${list.number}`} key={list.number} css={linkCss}>
+                <List list={list} />
+              </Link>
+            </div>
+          ))}
+        </>
+      )}
+
       {!isEnd && (
         <div ref={observingPoint}>
           <Spinner />
