@@ -2,8 +2,9 @@ import { useRef } from "react";
 
 const useInfinityScroll = () => {
   const observerRef = useRef();
+  let observer;
   const beginObserving = (callback) => {
-    const observer = new IntersectionObserver(
+    observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
           callback();
@@ -13,7 +14,12 @@ const useInfinityScroll = () => {
     );
     observer.observe(observerRef.current);
   };
-  return [observerRef, beginObserving];
+
+  const finishObserving = () => {
+    observer?.disconnect();
+  };
+
+  return [observerRef, beginObserving, finishObserving];
 };
 
 export default useInfinityScroll;
