@@ -3,12 +3,11 @@ import { css } from "@emotion/react";
 import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { octokitDetailApi } from "../api/client";
-import { useIssueContext, useDispatchContext } from "../store/IssuesContext";
 import Reactmarkdown from "react-markdown";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { customBodyStyle, media } from "../shared/globalStyle";
 import List from "../component/List";
-import { issuesContext, dispatchContext } from "../store/IssuesContext";
+import { issuesContext, issueDispatchContext } from "../store/IssuesContext";
 import { MarkdownImage } from "../component/MarkdownImage";
 
 import Header from "../component/Header";
@@ -19,7 +18,7 @@ function Detail() {
   const { id } = useParams();
 
   const { issue } = useContext(issuesContext);
-  const dispatch = useContext(dispatchContext);
+  const dispatch = useContext(issueDispatchContext);
 
   useEffect(() => {
     if (!issue) {
