@@ -4,7 +4,7 @@
 >
 > 프로젝트 기간 : 2022년 10월 26일 ~ 2022년 10월 31일
 >
-> [배포링크](https://issue365.netlify.app/)
+> ### [배포링크](https://issue-team3.netlify.app/)
 
 </br>
 
