@@ -12,11 +12,11 @@ const SpinnerContainer = styled.div`
   align-items: center;
   width: 100%;
   height: 80%;
-  margin-top: 1em;
+  margin: 1rem;
 `;
 const Circle = styled.div`
-  width: 70px;
-  height: 70px;
+  width: 30px;
+  height: 30px;
   border: 10px solid #32967f;
   border-top: 10px solid #fafafa;
   border-radius: 50%;
