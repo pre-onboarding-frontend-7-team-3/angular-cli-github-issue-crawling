@@ -1,33 +1,27 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { customBodyStyle } from "../shared/globalStyle";
+import { customBodyStyle, mediaWidth } from "../shared/globalStyle";
 
 function Advertisement() {
   return (
     <a href="https://www.wanted.co.kr" rel="wanted noreferrer" target="_blank">
-      <div css={imgWrapper}>
-        <img
-          css={imgCss}
-          style={{ width: "200px", height: "80px" }}
-          alt="ads"
-          src="/assets/img/wanted-lab.jpg"
-        />
+      <div>
+        <img css={imgCss} alt="ads" src="/assets/img/wanted-lab.jpg" />
       </div>
     </a>
   );
 }
 
-const imgWrapper = css`
-  ${customBodyStyle}
-  padding: 15px 30px;
-`;
+const imgWrapper = css``;
 
 const imgCss = css`
   display: flex;
   margin: 0px auto;
+  padding: 1rem;
+  background: #fff;
   justify-content: center;
   border-radius: 10px;
-  width: 20rem;
+  ${mediaWidth}
 `;
 
 export default Advertisement;
