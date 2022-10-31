@@ -12,6 +12,7 @@ import { issuesContext, dispatchContext } from "../store/IssuesContext";
 import { MarkdownImage } from "../component/MarkdownImage";
 
 import Header from "../component/Header";
+import PageUpButton from "../component/common/PageUpButton";
 
 function Detail() {
   const navigate = useNavigate();
@@ -56,6 +57,7 @@ function Detail() {
           </div>
         </>
       )}
+      <PageUpButton />
     </section>
   );
 }

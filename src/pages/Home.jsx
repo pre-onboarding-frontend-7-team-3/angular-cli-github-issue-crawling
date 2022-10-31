@@ -11,6 +11,8 @@ import List from "../component/List";
 import Header from "../component/Header";
 import Advertisement from "../component/Advertisement";
 import Spinner from "../component/Loading";
+import { centerInside } from "../shared/globalStyle";
+import PageUpButton from "../component/common/PageUpButton";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -74,6 +76,7 @@ const Home = () => {
           <Spinner />
         </div>
       )}
+      <PageUpButton />
     </section>
   );
 };
