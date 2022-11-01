@@ -1,21 +1,21 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
-
 import RouteComponent from "routes";
+
+import IssuesContextWrapper from "store/IssuesContext";
 
 import Header from "components/common/Header";
 
 function App() {
   return (
-    <BrowserRouter>
-      <main>
+    <main>
+      <IssuesContextWrapper>
         <header>
           <Header />
         </header>
 
         <RouteComponent />
-      </main>
-    </BrowserRouter>
+      </IssuesContextWrapper>
+    </main>
   );
 }
 
