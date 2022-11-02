@@ -6,10 +6,7 @@ import { getIssueDetailInfo } from "api/client";
 
 import { markdownToHtml } from "utils/markdownToHtml";
 
-const Wrapper = styled.section`
-  display: flex;
-  flex-direction: column;
-`;
+import { Wrapper } from "styles/PageStyle";
 
 const UserImg = styled.img`
   width: 100px;
